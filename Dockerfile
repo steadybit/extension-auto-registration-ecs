@@ -3,18 +3,34 @@
 ##
 ## Build
 ##
-FROM --platform=$BUILDPLATFORM goreleaser/goreleaser:v2.4.8 AS build
+FROM --platform=$BUILDPLATFORM golang:1.23-alpine AS build
 
-ARG TARGETOS TARGETARCH
-ARG BUILD_WITH_COVERAGE
-ARG BUILD_SNAPSHOT=true
+ARG TARGETOS
+ARG TARGETARCH
+ARG NAME
+ARG VERSION
+ARG REVISION
+ARG ADDITIONAL_BUILD_PARAMS
 ARG SKIP_LICENSES_REPORT=false
 
 WORKDIR /app
 
+RUN apk add build-base
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
 COPY . .
 
-RUN GOOS=$TARGETOS GOARCH=$TARGETARCH goreleaser build --snapshot="${BUILD_SNAPSHOT}" --single-target -o extension
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
+    -ldflags="\
+    -X 'github.com/steadybit/extension-kit/extbuild.ExtensionName=${NAME}' \
+    -X 'github.com/steadybit/extension-kit/extbuild.Version=${VERSION}' \
+    -X 'github.com/steadybit/extension-kit/extbuild.Revision=${REVISION}'" \
+    -o ./extension \
+    ${ADDITIONAL_BUILD_PARAMS}
+RUN make licenses-report
+
 ##
 ## Runtime
 ##
@@ -33,7 +49,5 @@ WORKDIR /
 
 COPY --from=build /app/extension /extension
 COPY --from=build /app/licenses /licenses
-
-EXPOSE 8090 8091
 
 ENTRYPOINT ["/extension"]
