@@ -3,6 +3,7 @@ package discovery
 import (
 	"context"
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
 	"github.com/go-resty/resty/v2"
@@ -16,10 +17,10 @@ var (
 	hostIpCache map[string]string
 )
 
-func UpdateAgentExtensions(httpClient *resty.Client, awsClient *ecs.Client) {
+func UpdateAgentExtensions(httpClient *resty.Client, ecsClient *ecs.Client, ec2Client *ec2.Client) {
 	currentRegistrations, err := getCurrentRegistrations(httpClient)
 	if err == nil {
-		discoveredExtensions := discoverExtensions(awsClient)
+		discoveredExtensions := discoverExtensions(ecsClient, ec2Client)
 		syncRegistrations(httpClient, &currentRegistrations, &discoveredExtensions)
 	}
 }
@@ -45,10 +46,10 @@ func getCurrentRegistrations(httpClient *resty.Client) ([]extensionConfigAO, err
 	return *currentRegistrations, nil
 }
 
-func discoverExtensions(awsClient *ecs.Client) []extensionConfigAO {
+func discoverExtensions(ecsClient *ecs.Client, ec2Client *ec2.Client) []extensionConfigAO {
 	discoveredExtensions := make([]extensionConfigAO, 0)
 	for _, taskFamily := range extensionconfig.Config.TaskFamilies {
-		listTasksOutput, err := awsClient.ListTasks(context.TODO(), &ecs.ListTasksInput{
+		listTasksOutput, err := ecsClient.ListTasks(context.TODO(), &ecs.ListTasksInput{
 			Cluster:       &extensionconfig.Config.EcsClusterName,
 			DesiredStatus: types.DesiredStatusRunning,
 			Family:        &taskFamily,
@@ -58,7 +59,7 @@ func discoverExtensions(awsClient *ecs.Client) []extensionConfigAO {
 			return discoveredExtensions
 		}
 		if len(listTasksOutput.TaskArns) > 0 {
-			describeTasksOutput, err := awsClient.DescribeTasks(context.TODO(), &ecs.DescribeTasksInput{
+			describeTasksOutput, err := ecsClient.DescribeTasks(context.TODO(), &ecs.DescribeTasksInput{
 				Cluster: &extensionconfig.Config.EcsClusterName,
 				Tasks:   listTasksOutput.TaskArns,
 				Include: []types.TaskField{types.TaskFieldTags},
@@ -82,7 +83,7 @@ func discoverExtensions(awsClient *ecs.Client) []extensionConfigAO {
 
 				var ip *string
 				if daemonTag != nil && *daemonTag == "true" {
-					ip = getHostIp(awsClient, *task.ContainerInstanceArn)
+					ip = getHostIp(*task.ContainerInstanceArn, ecsClient, ec2Client)
 				} else if len(task.Containers[0].NetworkInterfaces) > 0 {
 					ip = task.Containers[0].NetworkInterfaces[0].PrivateIpv4Address
 				}
@@ -172,29 +173,35 @@ func getTagValue(tags []types.Tag, key string) *string {
 	return nil
 }
 
-func getHostIp(awsClient *ecs.Client, containerInstanceArn string) *string {
+func getHostIp(containerInstanceArn string, ecsClient *ecs.Client, ec2Client *ec2.Client) *string {
 	if hostIpCache == nil {
 		hostIpCache = make(map[string]string)
 	}
 	ip, ok := hostIpCache[containerInstanceArn]
 	if !ok {
-		containerInstance, err := awsClient.DescribeContainerInstances(context.TODO(), &ecs.DescribeContainerInstancesInput{
+		containerInstance, err := ecsClient.DescribeContainerInstances(context.TODO(), &ecs.DescribeContainerInstancesInput{
 			Cluster:            &extensionconfig.Config.EcsClusterName,
 			ContainerInstances: []string{containerInstanceArn},
 		})
 		if err != nil {
-			log.Warn().Err(err).Msg("Failed to describe container instances from ECS.")
+			log.Warn().Err(err).Msg("Failed to describe container instances.")
 			return nil
 		}
-		for _, detail := range containerInstance.ContainerInstances[0].Attachments[0].Details {
-			if *detail.Name == "privateIPv4Address" {
-				ip = *detail.Value
-				hostIpCache[containerInstanceArn] = ip
-				return extutil.Ptr(ip)
-			}
+		instanceId := containerInstance.ContainerInstances[0].Ec2InstanceId
+		describeInstancesOutput, err := ec2Client.DescribeInstances(context.TODO(), &ec2.DescribeInstancesInput{
+			InstanceIds: []string{*instanceId},
+		})
+		if err != nil {
+			log.Warn().Err(err).Msg("Failed to describe ec2 instance.")
+			return nil
 		}
+		if (len(describeInstancesOutput.Reservations) == 0) || (len(describeInstancesOutput.Reservations[0].Instances) == 0) {
+			return nil
+		}
+		ip = *describeInstancesOutput.Reservations[0].Instances[0].PrivateIpAddress
+		hostIpCache[containerInstanceArn] = ip
+		return extutil.Ptr(ip)
 	} else {
 		return extutil.Ptr(ip)
 	}
-	return nil
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog"
@@ -25,7 +26,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to load AWS configuration: %v", err)
 	}
-	awsClient := ecs.NewFromConfig(awsCfg)
+	ecsClient := ecs.NewFromConfig(awsCfg)
+	ec2Client := ec2.NewFromConfig(awsCfg)
 
 	client := resty.New()
 	client.BaseURL = "http://localhost:42899"
@@ -34,6 +36,6 @@ func main() {
 	for {
 		//Sleep before first discovery to give the agent time to start
 		time.Sleep(time.Duration(extensionconfig.Config.DiscoveryInterval) * time.Second)
-		discovery.UpdateAgentExtensions(client, awsClient)
+		discovery.UpdateAgentExtensions(client, ecsClient, ec2Client)
 	}
 }

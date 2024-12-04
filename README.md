@@ -23,6 +23,7 @@ discover the extensions that are installed in the cluster and will sync/register
   - `ecs:ListTasks`
   - `ecs:DescribeTasks`
   - `ecs:DescribeContainerInstances`
+  - `ec2:DescribeInstances`
 - Each extension task definition should have the following tags:
   - `steadybit_extension_port` - the port on which the extension is running
   - `steadybit_extension_types` - the types of the extensions, separated by a `:`, e.g. `ACTION:DISCOVERY`
