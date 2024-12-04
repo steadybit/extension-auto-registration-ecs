@@ -13,7 +13,6 @@ discover the extensions that are installed in the cluster and will sync/register
 | `STEADYBIT_EXTENSION_DISCOVERY_ECS_CLUSTER_NAME` | The name of the ecs cluster.                                           | yes      |                                                                                                                             |
 | `STEADYBIT_EXTENSION_AGENT_KEY`                  | The agent key (used to authenticate at the agent api).                 | yes      |                                                                                                                             |
 | `STEADYBIT_EXTENSION_DISCOVERY_INTERVAL`         | The interval of the sync in seconds.                                   | no       | 30                                                                                                                          |
-| `STEADYBIT_EXTENSION_DISCOVERY_INTERVAL`         | The interval of the sync in seconds.                                   | no       | 30                                                                                                                          |
 | `STEADYBIT_EXTENSION_DISCOVERY_TASK_FAMILIES`    | The task families that should be used to filter fetching running tasks | no       | steadybit-extension-host,<br/>steadybit-extension-container,<br/>steadybit-extension-http,<br/>steadybit-extension-aws<br/> |
 
 
