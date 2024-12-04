@@ -26,16 +26,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to load AWS configuration: %v", err)
 	}
-	ecsClient := ecs.NewFromConfig(awsCfg)
-	ec2Client := ec2.NewFromConfig(awsCfg)
 
-	client := resty.New()
-	client.BaseURL = "http://localhost:42899"
-	client.SetDisableWarn(true)
+	httpClientAgent := resty.New()
+	httpClientAgent.BaseURL = "http://localhost:42899"
+	httpClientAgent.SetDisableWarn(true)
+
+	var ecsClient discovery.EcsApi = ecs.NewFromConfig(awsCfg)
+	var ec2Client discovery.Ec2Api = ec2.NewFromConfig(awsCfg)
 
 	for {
 		//Sleep before first discovery to give the agent time to start
 		time.Sleep(time.Duration(extensionconfig.Config.DiscoveryInterval) * time.Second)
-		discovery.UpdateAgentExtensions(client, ecsClient, ec2Client)
+		discovery.UpdateAgentExtensions(httpClientAgent, &ecsClient, &ec2Client)
 	}
 }

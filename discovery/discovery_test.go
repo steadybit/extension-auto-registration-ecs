@@ -59,8 +59,8 @@ func (m *ec2ClientApiMock) DescribeInstances(ctx context.Context, params *ec2.De
 func Test_discoverExtensions(t *testing.T) {
 	config.Config.TaskFamilies = []string{"steadybit-extension-test"}
 	type args struct {
-		ecsClient func() ecsApi
-		ec2Client func() ec2Api
+		ecsClient func() EcsApi
+		ec2Client func() Ec2Api
 	}
 	tests := []struct {
 		name string
@@ -70,7 +70,7 @@ func Test_discoverExtensions(t *testing.T) {
 		{
 			name: "Should discover daemon extensions",
 			args: args{
-				ecsClient: func() ecsApi {
+				ecsClient: func() EcsApi {
 					ecsMock := new(ecsClientApiMock)
 					ecsMock.On("ListTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.ListTasksOutput{
 						TaskArns: []string{"arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"},
@@ -106,7 +106,7 @@ func Test_discoverExtensions(t *testing.T) {
 					}, nil)
 					return ecsMock
 				},
-				ec2Client: func() ec2Api {
+				ec2Client: func() Ec2Api {
 					ec2Mock := new(ec2ClientApiMock)
 					ec2Mock.On("DescribeInstances", mock.Anything, mock.Anything, mock.Anything).Return(&ec2.DescribeInstancesOutput{
 						Reservations: []ec2types.Reservation{
@@ -133,7 +133,7 @@ func Test_discoverExtensions(t *testing.T) {
 		{
 			name: "Should discover replica extensions",
 			args: args{
-				ecsClient: func() ecsApi {
+				ecsClient: func() EcsApi {
 					ecsMock := new(ecsClientApiMock)
 					ecsMock.On("ListTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.ListTasksOutput{
 						TaskArns: []string{"arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"},
@@ -168,7 +168,7 @@ func Test_discoverExtensions(t *testing.T) {
 					}, nil)
 					return ecsMock
 				},
-				ec2Client: func() ec2Api {
+				ec2Client: func() Ec2Api {
 					ec2Mock := new(ec2ClientApiMock)
 					return ec2Mock
 				},
@@ -183,7 +183,7 @@ func Test_discoverExtensions(t *testing.T) {
 		{
 			name: "Should ignore task with missing port tag",
 			args: args{
-				ecsClient: func() ecsApi {
+				ecsClient: func() EcsApi {
 					ecsMock := new(ecsClientApiMock)
 					ecsMock.On("ListTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.ListTasksOutput{
 						TaskArns: []string{"arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"},
@@ -204,7 +204,7 @@ func Test_discoverExtensions(t *testing.T) {
 					}, nil)
 					return ecsMock
 				},
-				ec2Client: func() ec2Api {
+				ec2Client: func() Ec2Api {
 					ec2Mock := new(ec2ClientApiMock)
 					return ec2Mock
 				},
@@ -214,7 +214,7 @@ func Test_discoverExtensions(t *testing.T) {
 		{
 			name: "Should ignore task with missing type tag",
 			args: args{
-				ecsClient: func() ecsApi {
+				ecsClient: func() EcsApi {
 					ecsMock := new(ecsClientApiMock)
 					ecsMock.On("ListTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.ListTasksOutput{
 						TaskArns: []string{"arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"},
@@ -235,7 +235,7 @@ func Test_discoverExtensions(t *testing.T) {
 					}, nil)
 					return ecsMock
 				},
-				ec2Client: func() ec2Api {
+				ec2Client: func() Ec2Api {
 					ec2Mock := new(ec2ClientApiMock)
 					return ec2Mock
 				},
