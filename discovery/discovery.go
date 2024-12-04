@@ -2,7 +2,6 @@ package discovery
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
@@ -38,7 +37,7 @@ func getCurrentRegistrations(httpClient *resty.Client) ([]extensionConfigAO, err
 	}
 	if resp.IsError() {
 		log.Error().Msgf("Failed to get extension registrations from the agent: %s. Skip Discovery.", resp.Status())
-		return nil, errors.New(fmt.Sprintf("Failed to get extension registrations from the agent: %s", resp.Status()))
+		return nil, fmt.Errorf("failed to get extension registrations from the agent: %s", resp.Status())
 	}
 	if resp.IsSuccess() {
 		log.Debug().Int("count", len(*currentRegistrations)).Msg("Got extension registrations from the agent")
