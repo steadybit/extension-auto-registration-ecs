@@ -17,7 +17,17 @@ var (
 	hostIpCache map[string]string
 )
 
-func UpdateAgentExtensions(httpClient *resty.Client, ecsClient *ecs.Client, ec2Client *ec2.Client) {
+type ecsApi interface {
+	ListTasks(ctx context.Context, params *ecs.ListTasksInput, optFns ...func(*ecs.Options)) (*ecs.ListTasksOutput, error)
+	DescribeTasks(ctx context.Context, params *ecs.DescribeTasksInput, optFns ...func(*ecs.Options)) (*ecs.DescribeTasksOutput, error)
+	DescribeContainerInstances(ctx context.Context, params *ecs.DescribeContainerInstancesInput, optFns ...func(*ecs.Options)) (*ecs.DescribeContainerInstancesOutput, error)
+}
+
+type ec2Api interface {
+	DescribeInstances(ctx context.Context, params *ec2.DescribeInstancesInput, optFns ...func(*ec2.Options)) (*ec2.DescribeInstancesOutput, error)
+}
+
+func UpdateAgentExtensions(httpClient *resty.Client, ecsClient *ecsApi, ec2Client *ec2Api) {
 	currentRegistrations, err := getCurrentRegistrations(httpClient)
 	if err == nil {
 		discoveredExtensions := discoverExtensions(ecsClient, ec2Client)
@@ -46,10 +56,10 @@ func getCurrentRegistrations(httpClient *resty.Client) ([]extensionConfigAO, err
 	return *currentRegistrations, nil
 }
 
-func discoverExtensions(ecsClient *ecs.Client, ec2Client *ec2.Client) []extensionConfigAO {
+func discoverExtensions(ecsClient *ecsApi, ec2Client *ec2Api) []extensionConfigAO {
 	discoveredExtensions := make([]extensionConfigAO, 0)
 	for _, taskFamily := range extensionconfig.Config.TaskFamilies {
-		listTasksOutput, err := ecsClient.ListTasks(context.TODO(), &ecs.ListTasksInput{
+		listTasksOutput, err := (*ecsClient).ListTasks(context.TODO(), &ecs.ListTasksInput{
 			Cluster:       &extensionconfig.Config.EcsClusterName,
 			DesiredStatus: types.DesiredStatusRunning,
 			Family:        &taskFamily,
@@ -59,7 +69,7 @@ func discoverExtensions(ecsClient *ecs.Client, ec2Client *ec2.Client) []extensio
 			return discoveredExtensions
 		}
 		if len(listTasksOutput.TaskArns) > 0 {
-			describeTasksOutput, err := ecsClient.DescribeTasks(context.TODO(), &ecs.DescribeTasksInput{
+			describeTasksOutput, err := (*ecsClient).DescribeTasks(context.TODO(), &ecs.DescribeTasksInput{
 				Cluster: &extensionconfig.Config.EcsClusterName,
 				Tasks:   listTasksOutput.TaskArns,
 				Include: []types.TaskField{types.TaskFieldTags},
@@ -173,13 +183,13 @@ func getTagValue(tags []types.Tag, key string) *string {
 	return nil
 }
 
-func getHostIp(containerInstanceArn string, ecsClient *ecs.Client, ec2Client *ec2.Client) *string {
+func getHostIp(containerInstanceArn string, ecsClient *ecsApi, ec2Client *ec2Api) *string {
 	if hostIpCache == nil {
 		hostIpCache = make(map[string]string)
 	}
 	ip, ok := hostIpCache[containerInstanceArn]
 	if !ok {
-		containerInstance, err := ecsClient.DescribeContainerInstances(context.TODO(), &ecs.DescribeContainerInstancesInput{
+		containerInstance, err := (*ecsClient).DescribeContainerInstances(context.TODO(), &ecs.DescribeContainerInstancesInput{
 			Cluster:            &extensionconfig.Config.EcsClusterName,
 			ContainerInstances: []string{containerInstanceArn},
 		})
@@ -188,7 +198,7 @@ func getHostIp(containerInstanceArn string, ecsClient *ecs.Client, ec2Client *ec
 			return nil
 		}
 		instanceId := containerInstance.ContainerInstances[0].Ec2InstanceId
-		describeInstancesOutput, err := ec2Client.DescribeInstances(context.TODO(), &ec2.DescribeInstancesInput{
+		describeInstancesOutput, err := (*ec2Client).DescribeInstances(context.TODO(), &ec2.DescribeInstancesInput{
 			InstanceIds: []string{*instanceId},
 		})
 		if err != nil {
