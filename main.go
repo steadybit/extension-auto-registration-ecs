@@ -29,8 +29,11 @@ func main() {
 
 	client := resty.New()
 	client.BaseURL = "http://localhost:42899"
+	client.SetDisableWarn(true)
+
 	for {
-		discovery.UpdateAgentExtensions(client, awsClient)
+		//Sleep before first discovery to give the agent time to start
 		time.Sleep(time.Duration(extensionconfig.Config.DiscoveryInterval) * time.Second)
+		discovery.UpdateAgentExtensions(client, awsClient)
 	}
 }
