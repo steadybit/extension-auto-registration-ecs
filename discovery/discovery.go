@@ -108,6 +108,8 @@ func discoverExtensions(ecsClient *EcsApi, ec2Client *Ec2Api) []extensionConfigA
 					log.Warn().Msgf("Task: %s %s - No IP/Port found. Ignore.", *task.Group, *task.TaskArn)
 				}
 			}
+		} else {
+			log.Debug().Msgf("No tasks found for family: %s", taskFamily)
 		}
 	}
 	return discoveredExtensions
