@@ -29,4 +29,4 @@ discover the extensions that are installed in the cluster and will sync/register
   - `steadybit_extension_daemon` - if the extension is a daemon, the value should be `true`, can be omitted otherwise
 - The tags need to be propagated to the tasks: `aws ecs create-service ...  --propagate-tags TASK_DEFINITION ....`
 
-- TODO Add Link to the docs
+- More details can be found in the [docs](https://docs.steadybit.com/install-and-configure/install-agent/aws-ecs-ec2)
