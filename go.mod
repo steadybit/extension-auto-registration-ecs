@@ -1,4 +1,4 @@
-module github.com/steadybit/extension-discovery-ecs
+module github.com/steadybit/extension-auto-registration-ecs
 
 go 1.23.2
 

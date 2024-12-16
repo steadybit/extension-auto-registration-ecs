@@ -1,4 +1,4 @@
-package discovery
+package autoregistration
 
 import (
 	"context"
@@ -6,9 +6,8 @@ import (
 	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
-	"github.com/go-resty/resty/v2"
 	"github.com/jarcoal/httpmock"
-	"github.com/steadybit/extension-discovery-ecs/config"
+	"github.com/steadybit/extension-auto-registration-ecs/config"
 	"github.com/steadybit/extension-kit/extutil"
 	"github.com/stretchr/testify/mock"
 	"net/http"

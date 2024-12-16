@@ -13,7 +13,7 @@ var (
 )
 
 func ParseConfiguration() {
-	err := envconfig.Process("steadybit_extension_discovery", &Config)
+	err := envconfig.Process("steadybit_extension", &Config)
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Failed to parse configuration from environment.")
 	}

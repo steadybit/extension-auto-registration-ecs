@@ -1,4 +1,4 @@
-package discovery
+package autoregistration
 
 type extensionConfigAO struct {
 	UnixSocket string   `json:"unixSocket,omitempty"`

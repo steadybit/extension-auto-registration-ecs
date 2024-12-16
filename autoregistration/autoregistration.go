@@ -1,4 +1,4 @@
-package discovery
+package autoregistration
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog/log"
-	extensionconfig "github.com/steadybit/extension-discovery-ecs/config"
+	extensionconfig "github.com/steadybit/extension-auto-registration-ecs/config"
 	"github.com/steadybit/extension-kit/extutil"
 	"strings"
 )
@@ -43,11 +43,11 @@ func getCurrentRegistrations(httpClient *resty.Client) ([]extensionConfigAO, err
 		Get("/extensions")
 
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to get extension registrations from the agent. Skip Discovery.")
+		log.Error().Err(err).Msg("Failed to get extension registrations from the agent. Skip.")
 		return nil, err
 	}
 	if resp.IsError() {
-		log.Error().Msgf("Failed to get extension registrations from the agent: %s. Skip Discovery.", resp.Status())
+		log.Error().Msgf("Failed to get extension registrations from the agent: %s. Skip.", resp.Status())
 		return nil, fmt.Errorf("failed to get extension registrations from the agent: %s", resp.Status())
 	}
 	if resp.IsSuccess() {

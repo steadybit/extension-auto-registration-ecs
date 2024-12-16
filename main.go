@@ -7,8 +7,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog"
-	extensionconfig "github.com/steadybit/extension-discovery-ecs/config"
-	"github.com/steadybit/extension-discovery-ecs/discovery"
+	"github.com/steadybit/extension-auto-registration-ecs/autoregistration"
+	extensionconfig "github.com/steadybit/extension-auto-registration-ecs/config"
 	"github.com/steadybit/extension-kit/extbuild"
 	"github.com/steadybit/extension-kit/extlogging"
 	"github.com/steadybit/extension-kit/extruntime"
@@ -31,12 +31,12 @@ func main() {
 	httpClientAgent.BaseURL = "http://localhost:42899"
 	httpClientAgent.SetDisableWarn(true)
 
-	var ecsClient discovery.EcsApi = ecs.NewFromConfig(awsCfg)
-	var ec2Client discovery.Ec2Api = ec2.NewFromConfig(awsCfg)
+	var ecsClient autoregistration.EcsApi = ecs.NewFromConfig(awsCfg)
+	var ec2Client autoregistration.Ec2Api = ec2.NewFromConfig(awsCfg)
 
 	for {
 		//Sleep before first discovery to give the agent time to start
 		time.Sleep(time.Duration(extensionconfig.Config.DiscoveryInterval) * time.Second)
-		discovery.UpdateAgentExtensions(httpClientAgent, &ecsClient, &ec2Client)
+		autoregistration.UpdateAgentExtensions(httpClientAgent, &ecsClient, &ec2Client)
 	}
 }
