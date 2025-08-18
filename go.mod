@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.31.0
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.244.0
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.62.0
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.63.0
 	github.com/go-resty/resty/v2 v2.16.5
 	github.com/jarcoal/httpmock v1.4.0
 	github.com/kelseyhightower/envconfig v1.4.0
