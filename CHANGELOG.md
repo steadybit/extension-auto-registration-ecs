@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.4
+
+- Update dependencies
+
 ## v1.0.3
 
 - Update dependencies
