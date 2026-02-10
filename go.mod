@@ -1,6 +1,6 @@
 module github.com/steadybit/extension-auto-registration-ecs
 
-go 1.25.3
+go 1.25.7
 
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.32.7
