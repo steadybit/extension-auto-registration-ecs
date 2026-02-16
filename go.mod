@@ -10,7 +10,7 @@ require (
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.34.0
-	github.com/steadybit/extension-kit v1.10.1
+	github.com/steadybit/extension-kit v1.10.2
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -38,7 +38,7 @@ require (
 	github.com/prometheus/procfs v0.19.2 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	howett.net/plist v1.0.1 // indirect
 )
