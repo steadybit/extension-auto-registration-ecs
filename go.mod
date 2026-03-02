@@ -10,7 +10,7 @@ require (
 	github.com/jarcoal/httpmock v1.4.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.34.0
-	github.com/steadybit/extension-kit v1.10.2
+	github.com/steadybit/extension-kit v1.10.3
 	github.com/stretchr/testify v1.11.1
 )
 
