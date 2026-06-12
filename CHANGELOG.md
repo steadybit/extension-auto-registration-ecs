@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.10
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- chore: update dependencies
+- feat: add weekly auto patch-release workflow
+
 ## v1.0.9
 
 - Bump Go to 1.26.3
