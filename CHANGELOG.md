@@ -6,7 +6,6 @@
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
 - build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
 - build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
-- build: rename workflow_dispatch input labels for the GH UI
 
 ## v1.0.10
 
