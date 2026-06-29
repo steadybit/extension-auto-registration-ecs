@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.12
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/steadybit/extension-kit
+
 ## v1.0.11
 
 - build(deps): bump alpine from 3.23 to 3.24
