@@ -9,7 +9,6 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog/log"
 	extensionconfig "github.com/steadybit/extension-auto-registration-ecs/config"
-	"github.com/steadybit/extension-kit/extutil"
 	"strings"
 )
 
@@ -212,8 +211,8 @@ func getHostIp(containerInstanceArn string, ecsClient *EcsApi, ec2Client *Ec2Api
 		}
 		ip = *describeInstancesOutput.Reservations[0].Instances[0].PrivateIpAddress
 		hostIpCache[containerInstanceArn] = ip
-		return extutil.Ptr(ip)
+		return new(ip)
 	} else {
-		return extutil.Ptr(ip)
+		return new(ip)
 	}
 }

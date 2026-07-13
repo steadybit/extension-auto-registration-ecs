@@ -9,7 +9,6 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/jarcoal/httpmock"
 	"github.com/steadybit/extension-auto-registration-ecs/config"
-	"github.com/steadybit/extension-kit/extutil"
 	"github.com/stretchr/testify/mock"
 	"net/http"
 	"reflect"
@@ -78,21 +77,21 @@ func Test_discoverExtensions(t *testing.T) {
 					ecsMock.On("DescribeTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.DescribeTasksOutput{
 						Tasks: []types.Task{
 							{
-								ContainerInstanceArn: extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:container-instance/12345678901234567890"),
-								TaskArn:              extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
-								Group:                extutil.Ptr("steadybit-extension-test"),
+								ContainerInstanceArn: new("arn:aws:ecs:eu-central-1:123456789012:container-instance/12345678901234567890"),
+								TaskArn:              new("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
+								Group:                new("steadybit-extension-test"),
 								Tags: []types.Tag{
 									{
-										Key:   extutil.Ptr("steadybit_extension_port"),
-										Value: extutil.Ptr("8080"),
+										Key:   new("steadybit_extension_port"),
+										Value: new("8080"),
 									},
 									{
-										Key:   extutil.Ptr("steadybit_extension_type"),
-										Value: extutil.Ptr("ACTION:DISCOVERY"),
+										Key:   new("steadybit_extension_type"),
+										Value: new("ACTION:DISCOVERY"),
 									},
 									{
-										Key:   extutil.Ptr("steadybit_extension_daemon"),
-										Value: extutil.Ptr("true"),
+										Key:   new("steadybit_extension_daemon"),
+										Value: new("true"),
 									}},
 							},
 						},
@@ -100,7 +99,7 @@ func Test_discoverExtensions(t *testing.T) {
 					ecsMock.On("DescribeContainerInstances", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.DescribeContainerInstancesOutput{
 						ContainerInstances: []types.ContainerInstance{
 							{
-								Ec2InstanceId: extutil.Ptr("i-1234567890abcdef0"),
+								Ec2InstanceId: new("i-1234567890abcdef0"),
 							},
 						},
 					}, nil)
@@ -113,8 +112,8 @@ func Test_discoverExtensions(t *testing.T) {
 							{
 								Instances: []ec2types.Instance{
 									{
-										InstanceId:       extutil.Ptr("i-1234567890abcdef0"),
-										PrivateIpAddress: extutil.Ptr("111.222.333.444"),
+										InstanceId:       new("i-1234567890abcdef0"),
+										PrivateIpAddress: new("111.222.333.444"),
 									},
 								},
 							},
@@ -141,26 +140,26 @@ func Test_discoverExtensions(t *testing.T) {
 					ecsMock.On("DescribeTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.DescribeTasksOutput{
 						Tasks: []types.Task{
 							{
-								ContainerInstanceArn: extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:container-instance/12345678901234567890"),
-								TaskArn:              extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
-								Group:                extutil.Ptr("steadybit-extension-test"),
+								ContainerInstanceArn: new("arn:aws:ecs:eu-central-1:123456789012:container-instance/12345678901234567890"),
+								TaskArn:              new("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
+								Group:                new("steadybit-extension-test"),
 								Containers: []types.Container{
 									{
 										NetworkInterfaces: []types.NetworkInterface{
 											{
-												PrivateIpv4Address: extutil.Ptr("111.222.333.444"),
+												PrivateIpv4Address: new("111.222.333.444"),
 											},
 										},
 									},
 								},
 								Tags: []types.Tag{
 									{
-										Key:   extutil.Ptr("steadybit_extension_port"),
-										Value: extutil.Ptr("8080"),
+										Key:   new("steadybit_extension_port"),
+										Value: new("8080"),
 									},
 									{
-										Key:   extutil.Ptr("steadybit_extension_type"),
-										Value: extutil.Ptr("ACTION:DISCOVERY"),
+										Key:   new("steadybit_extension_type"),
+										Value: new("ACTION:DISCOVERY"),
 									},
 								},
 							},
@@ -191,12 +190,12 @@ func Test_discoverExtensions(t *testing.T) {
 					ecsMock.On("DescribeTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.DescribeTasksOutput{
 						Tasks: []types.Task{
 							{
-								TaskArn: extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
-								Group:   extutil.Ptr("steadybit-extension-test"),
+								TaskArn: new("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
+								Group:   new("steadybit-extension-test"),
 								Tags: []types.Tag{
 									{
-										Key:   extutil.Ptr("steadybit_extension_type"),
-										Value: extutil.Ptr("8080"),
+										Key:   new("steadybit_extension_type"),
+										Value: new("8080"),
 									},
 								},
 							},
@@ -222,12 +221,12 @@ func Test_discoverExtensions(t *testing.T) {
 					ecsMock.On("DescribeTasks", mock.Anything, mock.Anything, mock.Anything).Return(&ecs.DescribeTasksOutput{
 						Tasks: []types.Task{
 							{
-								TaskArn: extutil.Ptr("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
-								Group:   extutil.Ptr("steadybit-extension-test"),
+								TaskArn: new("arn:aws:ecs:eu-central-1:123456789012:task/steadybit-extension-test/12345678901234567890"),
+								Group:   new("steadybit-extension-test"),
 								Tags: []types.Tag{
 									{
-										Key:   extutil.Ptr("steadybit_extension_port"),
-										Value: extutil.Ptr("8080"),
+										Key:   new("steadybit_extension_port"),
+										Value: new("8080"),
 									},
 								},
 							},
@@ -245,7 +244,7 @@ func Test_discoverExtensions(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := discoverExtensions(extutil.Ptr(tt.args.ecsClient()), extutil.Ptr(tt.args.ec2Client())); !reflect.DeepEqual(got, tt.want) {
+			if got := discoverExtensions(new(tt.args.ecsClient()), new(tt.args.ec2Client())); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("discoverExtensions() = %v, want %v", got, tt.want)
 			}
 		})
