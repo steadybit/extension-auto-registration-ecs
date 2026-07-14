@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.14
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/steadybit/extension-kit
+- chore: update Go to 1.26.5
+- refactor: apply go fix modernizations
+
 ## v1.0.13
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
