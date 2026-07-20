@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.15
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- ci: skip build on .trivyignore.yml-only changes [skip ci]
+
 ## v1.0.14
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
