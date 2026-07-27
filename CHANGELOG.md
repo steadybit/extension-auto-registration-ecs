@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.16
+
+- chore(deps): update dependencies
+
 ## v1.0.15
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
