@@ -64,8 +64,8 @@ github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU
 github.com/rogpeppe/go-internal v1.12.0/go.mod h1:E+RYuTGaKKdloAfM02xzb0FW3Paa99yedzYV+kq4uf4=
 github.com/rs/zerolog v1.35.1 h1:m7xQeoiLIiV0BCEY4Hs+j2NG4Gp2o2KPKmhnnLiazKI=
 github.com/rs/zerolog v1.35.1/go.mod h1:EjML9kdfa/RMA7h/6z6pYmq1ykOuA8/mjWaEvGI+jcw=
-github.com/steadybit/extension-kit v1.11.0 h1:sliZpOlZKp0XuPKoH3pNyKzI0Tt3iYDCfwaoga5jriw=
-github.com/steadybit/extension-kit v1.11.0/go.mod h1:Bm3pbDipaVc64zpxfOEL9Shpr5CNd4By2x4/jSSr0bA=
+github.com/steadybit/extension-kit v1.11.1 h1:edL52gyi8G400z/fpc1wuYmmGLlFUJk83TJePvs0x7Q=
+github.com/steadybit/extension-kit v1.11.1/go.mod h1:j6YHBLamSzEi8e85U/ZosBJG7nnnfiHwtHeQa6+9smk=
 github.com/stretchr/objx v0.5.3 h1:jmXUvGomnU1o3W/V5h2VEradbpJDwGrzugQQvL0POH4=
 github.com/stretchr/objx v0.5.3/go.mod h1:rDQraq+vQZU7Fde9LOZLr8Tax6zZvy4kuNKF+QYS+U0=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
