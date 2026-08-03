@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.317.0
 	github.com/aws/aws-sdk-go-v2/service/ecs v1.89.2
 	github.com/go-resty/resty/v2 v2.17.2
-	github.com/jarcoal/httpmock v1.4.1
+	github.com/jarcoal/httpmock v1.4.2
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.35.1
 	github.com/steadybit/extension-kit v1.11.1
