@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.17
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/jarcoal/httpmock from 1.4.1 to 1.4.2
+- build(deps): bump github.com/steadybit/extension-kit
+
 ## v1.0.16
 
 - chore(deps): update dependencies
