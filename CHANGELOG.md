@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.18
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+
 ## v1.0.17
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
