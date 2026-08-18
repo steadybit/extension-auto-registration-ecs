@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.19
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/stretchr/testify from 1.11.1 to 1.12.0
+- chore(deps): bump steadybit kits and drop Go patch pin (#222)
+
 ## v1.0.18
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
