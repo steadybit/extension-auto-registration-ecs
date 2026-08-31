@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.20
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/stretchr/testify from 1.12.0 to 1.12.1
+- build(deps): bump golang from 1.26-alpine to 1.27-alpine
+
 ## v1.0.19
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
