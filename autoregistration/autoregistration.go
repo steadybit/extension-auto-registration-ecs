@@ -49,6 +49,13 @@ func getCurrentRegistrations(httpClient *resty.Client) ([]extensionConfigAO, err
 		log.Error().Msgf("Failed to get extension registrations from the agent: %s. Skip.", resp.Status())
 		return nil, fmt.Errorf("failed to get extension registrations from the agent: %s", resp.Status())
 	}
+	if currentRegistrations == nil {
+		// A success response whose body is JSON "null" unmarshals without error but
+		// leaves the result pointer nil. Dereferencing it below would panic, so read
+		// it as "the agent has no registrations".
+		log.Debug().Msg("Agent reported no extension registrations")
+		return []extensionConfigAO{}, nil
+	}
 	if resp.IsSuccess() {
 		log.Debug().Int("count", len(*currentRegistrations)).Msg("Got extension registrations from the agent")
 	}
