@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.23
+
+- Add OpenTelemetry tracing support
+- Update dependencies
+
 ## v1.0.22
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
