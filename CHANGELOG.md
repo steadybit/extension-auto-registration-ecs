@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.24
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- chore(deps): bump golang.org/x/net to v0.61.0
+- fix: treat a null registrations body as empty instead of panicking
+
 ## v1.0.23
 
 - Add OpenTelemetry tracing support
