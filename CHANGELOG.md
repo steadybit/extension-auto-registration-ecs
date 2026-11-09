@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.28
+
+- chore(deps): bump golang.org/x/net to v0.62.0
+
 ## v1.0.27
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
