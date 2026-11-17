@@ -29,3 +29,4 @@ discover the extensions that are installed in the cluster and will sync/register
 - The tags need to be propagated to the tasks: `aws ecs create-service ...  --propagate-tags TASK_DEFINITION ....`
 
 - More details can be found in the [docs](https://docs.steadybit.com/install-and-configure/install-agent/aws-ecs-ec2)
+
