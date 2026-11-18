@@ -17,4 +17,11 @@ func ParseConfiguration() {
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Failed to parse configuration from environment.")
 	}
+	usesDeprecatedAgentKey, err := Config.ResolveAgentApiPassword()
+	if err != nil {
+		log.Fatal().Err(err).Msgf("Invalid configuration.")
+	}
+	if usesDeprecatedAgentKey {
+		log.Warn().Msg("STEADYBIT_EXTENSION_AGENT_KEY is deprecated, use STEADYBIT_EXTENSION_AGENT_API_PASSWORD instead.")
+	}
 }
