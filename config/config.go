@@ -17,4 +17,7 @@ func ParseConfiguration() {
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Failed to parse configuration from environment.")
 	}
+	if err := Config.Validate(); err != nil {
+		log.Fatal().Err(err).Msgf("Invalid configuration.")
+	}
 }
