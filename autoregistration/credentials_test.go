@@ -16,7 +16,7 @@ import (
 func Test_registrationCallsSendConfiguredCredentials(t *testing.T) {
 	original := config.Config
 	t.Cleanup(func() { config.Config = original })
-	config.Config = config.Specification{AgentKey: "agent-key", AgentApiUsername: "registrar", AgentApiPassword: "api-secret"}
+	config.Config = config.Specification{AgentApiUsername: "registrar", AgentApiPassword: "api-secret"}
 
 	type call struct{ method, username, password string }
 	var calls []call
