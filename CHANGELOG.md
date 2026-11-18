@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.0
+
+- build(deps): bump github.com/aws/aws-sdk-go-v2/config
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ec2
+- build(deps): bump github.com/aws/aws-sdk-go-v2/service/ecs
+- build(deps): bump github.com/steadybit/extension-kit
+- ci: CLA check with a GitHub App token (#263)
+- ci: stop passing unused secrets to the shared workflow (#269)
+- feat: configurable credentials for the agent API (#270)
+
 ## v1.0.29
 
 - build(deps): bump github.com/aws/aws-sdk-go-v2/config
